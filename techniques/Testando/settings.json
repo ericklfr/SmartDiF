@@ -1,1 +1,0 @@
-{"port": "8008", "endpoint": "127.0.0.1", "name": "testar", "image_name" : "tecnica01", "mapping_url": "testar/", "type": "imagem", "mapping_dir": "somardir", "finish": "acabou", "virtualization": "docker"}

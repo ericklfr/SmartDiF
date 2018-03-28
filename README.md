@@ -1,2 +1,0 @@
-# SmartDiF
-Projeto de IC
