@@ -1,0 +1,156 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+	<head>
+		<title>Cético</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Verificar Autoria do Twitter" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  		<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
+		<script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+  		<script src="https://code.jquery.com/jquery-3.1.1.min.js" defer></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+ 		<script src="localhost:8000/js/bootstrap-submenu.js" defer></script>
+	</head>
+	<body>
+
+
+<nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0em;padding-top:30px;padding-bottom:30px">
+<div class="container-fluid">
+
+<div class="btn-group btn-group-justified" role="group" >
+
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Imagem
+  </button>
+  <ul class="dropdown-menu">
+{% for imagem in tituloimagem %}
+
+    <li><a class="dropdown-item" href="{{imagem.titulo}}">{{ imagem.titulo }}</a></li>
+
+{% endfor %}
+</ul>
+</div>
+
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Video
+  </button>
+  <ul class="dropdown-menu">
+{% for video in titulovideo %}
+
+    <li><a class="dropdown-item" href="{{imagem.titulo}}">{{ video.titulo }}</a></li>
+
+{% endfor %}
+</ul>
+</div>
+
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Áudio
+  </button>
+  <ul class="dropdown-menu">
+{% for audio in tituloaudio %}
+
+    <li><a class="dropdown-item" href="{{imagem.titulo}}">{{ audio.titulo }}</a></li>
+
+{% endfor %}
+</ul>
+</div>
+
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Texto
+  </button>
+  <ul class="dropdown-menu">
+{% for texto in titulotexto %}
+
+    <li><a class="dropdown-item" href="{{imagem.titulo}}">{{ texto.titulo }}</a></li>
+
+{% endfor %}
+</ul>
+</div>
+
+
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Outros
+  </button>
+  <ul class="dropdown-menu">
+{% for outros in titulooutros %}
+
+    <li><a class="dropdown-item" href="{{imagem.titulo}}">{{ outros.titulo }}</a></li>
+
+{% endfor %}
+</ul>
+</div>
+
+
+</div>
+
+
+</div>
+
+</nav>
+
+
+
+
+		<section class="fundo">
+
+
+<div  class="col-md-12" style="margin-top:2%">
+
+
+<div class="row">
+
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4" style="background:#55acee;border-radius:20px;height:35em;width:auto;border:solid white 2px">
+
+      <div style="margin-top:3em">
+    <input type="text" class="form-control" placeholder="Nome do Modelo">
+    </div>
+        <b><p style="font-size:20px;text-align:center;margin-top:10px"> Perfis Selecionados</p></b>
+        <div style="border:solid white 2px;border-radius:10px;width:700px;height:270px;margin-top:10px">
+
+        </div>
+        <div style="text-align:center;margin-top:20px">
+           <button style="width:50%;height:50px" onclick="location.href='http://localhost:8000/Atribuição%20de%20Autoria%20no%20Twitter';"  type="button" class="btn btn-success"><b>Salvar Modelo</b>
+            </div>
+    </div>
+    <div class="col-md-1">
+        <div style="text-align:center;position:relative;top:200px">
+        <img style="width:100px" class="btn" src="http://localhost:8000/media/documents/seta.png">
+        </div>
+         <div style="text-align:center;position:relative;top:200px">
+        <img style="width:100px" class="btn" src="http://localhost:8000/media/documents/setadireita.png">
+        </div>
+    </div>
+
+    <div class="col-md-4" style="background:white;border-radius:20px;height:35em;width:350px;border:solid black 2px">
+         <div style="text-align:center">
+ <img style="width:80px" class="btn" src="http://localhost:8000/media/documents/iconetw.png">
+         </div>
+        <div style="margin-top:0.5em">
+          <input type="text" class="form-control" placeholder="Procurar perfil">
+        </div>
+
+    </div>
+
+<div class="col-md-1">
+    </div>
+
+
+
+</div>
+        </section>
+
+
+
+	</body>
+</html>
