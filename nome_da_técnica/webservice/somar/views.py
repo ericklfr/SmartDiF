@@ -1,0 +1,73 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect, HttpResponse
+from .forms import Somar, ImagemForm
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
+from .models import imagem, audio, outros, texto, video, UploadImage
+from django.core.urlresolvers import reverse
+from subprocess import Popen, call, PIPE
+import json
+import sys
+import time
+import requests
+import os
+from subprocess import check_output
+
+
+@csrf_exempt
+def home(request):
+    out = os.environ
+    id = out.get("ID")
+    name = out.get("NAME")
+    return render(request, 'somar/index.html', {'container_id':id,'technique_name':name})
+
+
+def ilu(request):
+    print(request.META.get('HTTP_REFERER'))
+    if request.method == 'POST':
+        form = ImagemForm(request.POST, request.FILES)
+        if form.is_valid():
+            novaimg = UploadImage(imagem=request.FILES['resultado'])
+            novaimg.save()
+            converter.save(settings.BASE_DIR + '/somar/' + novaimg.imagem.url)
+            context = {'novaimg': novaimg}
+            return render(request, 'somar/resultado.html', context)
+
+    else:
+        form = ImagemForm()
+    imagens = UploadImage.objects.all()
+
+    return render(request, 'somar/Iluminantes.html', {'imagens': imagens, 'form': form})
+
+
+def finish(request):
+
+    return HttpResponseRedirect('/finish')
+
+
+def somar(request):
+    if request.method == "POST":
+        form = Somar(request.POST)
+        if form.is_valid():
+            data = {'valor1':form.cleaned_data['valor1'],'valor2':form.cleaned_data['valor2']}
+            resultado = data['valor1'] + data['valor2']
+            return render(request,'somar/somar.html',{'resultado':resultado})
+    else:
+        form = Somar()
+    return render(request, 'somar/somar.html', {'form': form})
+
+
+def subtrair(request):
+    if request.method == "POST":
+        form = Somar(request.POST)
+        if form.is_valid():
+            data = {'valor1':form.cleaned_data['valor1'],'valor2':form.cleaned_data['valor2']}
+            resultado = data['valor1'] - data['valor2']
+            return render(request,'somar/resultado.html',{'resultado':resultado})
+    else:
+        form = Somar()
+    return render(request, 'somar/subtrair.html', {'form': form})
+
+def resultado(request):
+    return render(request,'somar/resultado.html')
+

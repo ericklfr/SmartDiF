@@ -1,1 +1,0 @@
-{"port": "8004", "endpoint": "127.0.0.1", "name": "somar", "image_name": "tecnica01", "mapping_url": "somar/", "type": "image", "mapping_dir": "somardir", "finish": "acabou", "virtualization": "docker"}
