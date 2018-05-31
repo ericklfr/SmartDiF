@@ -1,0 +1,333 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+	<head>
+	    <title>SmartDiF</title>
+	    <meta charset="utf-8"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	    <meta name="description" content="Analise forense, verificar se imagem é falsa" />
+	    <link rel="stylesheet" href="{% static 'bootstrap-4.0.0/dist/css/bootstrap.css' %}">
+	    <link rel="stylesheet" href="{% static 'fontawesome-free-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css' %}">
+	    <link rel="stylesheet" href="{% static 'css/component-custom-switch.css' %}">
+	    <link rel="stylesheet" href="{% static 'css/smartdif.css' %}">
+	    <script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+	    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	    <script src="{% static 'bootstrap-4.0.0/dist/js/bootstrap.min.js' %}"></script>
+	</head>
+
+    <body>
+
+
+<script type="text/javascript">
+		
+        window.onload = function(){
+          var tela_tecnica = document.getElementById('tela_tecnica');
+          tela_tecnica.src= "{% url 'sobre' %}"; 
+          
+          
+        $.ajax({
+                url: "{% url 'tecnicas_ativas' %}",
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                for (var x in data){
+                  document.getElementById(x).checked = true;
+                  document.getElementById(x).value = data[x]['id'];
+                  document.getElementById('li_'+x).value = data[x]['port'];
+                }
+                },
+            });
+        }
+
+        function ligar_desligar_MV(nome){
+          	if(document.getElementById(nome).checked){
+
+	      		$('#tela_tecnica').fadeOut(1000,function(){
+	          	$('#tela_tecnica').attr('src',"{% url 'loading' %}" );
+	          	$('#tela_tecnica').fadeIn(1000);
+	      		});
+	          	document.getElementById(nome).disabled = true;
+	            var data = {'tecnica_nome':nome,'csrfmiddlewaretoken': "{{ csrf_token }}"};
+	                $.ajax({
+                      url: "{% url 'dispatcher' %}",
+                      type: "POST",
+                      contentType: 'application/json; charset=utf-8',
+                      data: JSON.stringify(data),
+                      dataType: 'json',
+                      success: function(data) {
+                        if(data['resposta'] == "sucess"){
+                          document.getElementById(nome).value = data['id'];
+                        $('#tela_tecnica').fadeIn(1000,function(){
+      						document.getElementById('tela_tecnica').src = "http://127.0.0.1:"+data['porta']+"/";
+      						
+  						});
+                          document.getElementById('li_'+nome).value = data['porta'];
+                          document.getElementById(nome).disabled = false;
+                        }else if(data['resposta'] == 'fail-1'){
+
+                        }else{
+
+                        }
+                      },
+	                });   
+          	}else{
+	            var data = {'tecnica_nome':nome,'id':document.getElementById(nome).value,'csrfmiddlewaretoken': "{{ csrf_token }}"};
+                $.ajax({
+                  url: "{% url 'finish' %}",
+                  type: "POST",
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify(data),
+                  dataType: 'json',
+                  success: function(data) {
+                    if(data['resposta'] == 'sucess'){
+
+                      document.getElementById(nome).value = "null";
+                      document.getElementById('li_'+nome).value = "";
+                      	if(document.getElementById('tela_tecnica').src != "{% url 'sobre' %}"){
+                          	$('#tela_tecnica').fadeOut(1000,function(){
+          						document.getElementById('tela_tecnica').src = "{% url 'sobre' %}";
+          						$('#tela_tecnica').fadeIn(1000);
+  							});
+                      	}
+	                }else if(data['resposta'] == 'fail-1'){
+
+	                }else{
+
+	                }
+	               },
+	            });
+	        }
+        };
+
+
+       function atualizarIframe(value,nome){
+       	$("#li_"+nome+" span").click(function(e) { e.stopPropagation(); });
+       	if(value!= "" && document.getElementById(nome).checked==true){
+       		$('#tela_tecnica').fadeOut(1000,function(){
+          	$('#tela_tecnica').attr('src',"http://127.0.0.1:"+value+"/" );
+          	$('#tela_tecnica').fadeIn(1000);
+      		});
+    	}
+       } 
+
+       	function desativarAll(){
+       		$.ajax({
+			    url: "{% url 'tecnicas_ativas' %}",
+			    type: "POST",
+			    dataType: 'json',
+			    success: function(data1) {
+			    	$.ajax({
+				        url: "{% url 'finishall' %}",
+				        type: "POST",
+				        dataType: 'json',
+				        success: function(data) {
+				            if(data['resposta'] == 'sucess'){
+				            for (var x in data1){
+					          document.getElementById(x).checked = false;
+					          document.getElementById(x).value = "";
+					          document.getElementById('li_'+x).value = "";
+					    	}
+	          				$('#tela_tecnica').fadeOut(1000,function(){
+								document.getElementById('tela_tecnica').src = "{% url 'sobre' %}";
+								$('#tela_tecnica').fadeIn(1000);
+							});
+							}else if(data['resposta'] == 'fail-1'){
+
+							}else{
+
+							}
+								        
+						}
+				    });
+			        
+				}
+	    	});
+			
+		}
+       	
+    	function pesquisarTecnica(){
+			var input, filter, ul, li , a, i;
+			input = document.getElementById("pesquisa");
+			filter = input.value.toUpperCase();
+			ul = document.getElementById("menu-content");
+
+			li = ul.getElementsByTagName("li");
+			for (i = 0; i<li.length;k++){
+				a = li[i].getElementsByTagName("a")[0];
+				if (a.innerHTML.toUpperCase().indexOf(filter)>-1){
+					
+					
+
+				}
+			}
+		}
+			
+
+</script>
+
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div  class="col-sm-2">
+
+      <div class="row">
+                
+        <div class="nav-side-menu">
+
+        	<div class="brand" style="padding-bottom: 1em;padding-top: 1em;font-size: 1.5em;letter-spacing: 5px;font-family: roboto;">SMARTDiF<p style="margin:0px;font-size: 0.4em;line-height: 1.6;text-align: center;font-family: verdana;letter-spacing: 0px;font-style: italic;" >Ambiente Inteligente para o Gerenciamento de Ferramentas de Forense Digital</p>
+        	</div>
+            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+  			<div style="padding-bottom: 1em;background-color: #E5AF59;color: #131313;padding-top: 1em;text-align: center;letter-spacing: 5px;font-family: roboto;">MENU</div>
+          	<div class="menu-list">
+  
+            <ul id="menu-content" class="menu-content collapse out">
+
+                <li  data-toggle="collapse" data-target="#imagens" style="padding-top: 1em;padding-bottom: 1em" class="collapsed">
+                  <a href="#"><i style="margin-right: 10px" class="far fa-file-image fa-lg"></i> IMAGEM <span class="arrow"></span></a>
+                </li>
+
+                <ul class="sub-menu collapse" id="imagens">
+                {% for imagem in tituloimagem %}
+
+                  <li  id = "li_{{imagem}}" value="" onclick="atualizarIframe(this.value,'{{imagem}}');" class="active col-lg-12"><a>{{ imagem }}</a>
+
+                     
+                    <span class="switch switch-sm col-lg-2" style="position: absolute;top: 0.2em;right: 1em">
+
+                    <input type="checkbox" class="switch" onchange="ligar_desligar_MV('{{ imagem }}');" id="{{ imagem }}">
+                    <label for="{{ imagem }}"></label>
+                    </span>
+
+
+                  </li>
+                  {% endfor %}
+                </ul>
+
+
+                <li data-toggle="collapse" data-target="#video" style="padding-top: 1em;padding-bottom: 1em" class="collapsed">
+                  <a href="#"><i style="margin-right: 10px" class="far fa-file-video fa-lg"></i> VÍDEO <span class="arrow"></span></a>
+                </li>  
+
+                <ul class="sub-menu collapse" id="video">
+                  {% for video in titulovideo %}
+
+                  <li  class="active col-lg-12"><a>{{ video }}</a>
+
+                     
+                    <span class="switch switch-sm col-lg-2" style="position: absolute;top: 0.2em;right: 1em">
+
+                    <input type="checkbox" class="switch" onchange="ligarMV('{{ video }}');" id="{{ video }}">
+                    <label for="{{ video }}"></label>
+                    </span>
+
+
+                  </li>
+                  {% endfor %}
+                </ul>
+
+
+                <li data-toggle="collapse" data-target="#new" style="padding-top: 1em;padding-bottom: 1em" class="collapsed">
+                  <a href="#"><i style="margin-right: 10px" class="far fa-file-audio fa-lg"></i> ÁUDIO <span class="arrow"></span></a>
+                </li>
+
+                <ul class="sub-menu collapse" id="audio">
+                  {% for audio in tituloaudio %}
+
+                  <li onclick="ligarMV('{{ audio }}');" class="active col-lg-12"><a>{{ audio }}</a>
+
+                     
+                    <span class="switch switch-sm col-lg-2" style="position: absolute;top: 0.2em;right: 1em">
+
+                    <input type="checkbox" class="switch"  id="{{ audio }}">
+                    <label for="{{ audio }}"></label>
+                    </span>
+
+
+                  </li>
+                  {% endfor %}
+                </ul>
+
+
+                 <li data-toggle="collapse" data-target="#service" style="padding-top: 1em;padding-bottom: 1em" class="collapsed">
+                  <a href="#"><i style="margin-right: 10px" class="far fa-file-alt fa-lg"></i> TEXTO <span class="arrow"></span></a>
+                </li> 
+
+                <ul class="sub-menu collapse" id="texto">
+                  {% for texto in titulotexto %}
+
+                  <li onclick="ligarMV('{{ texto }}');" class="active col-lg-12"><a>{{ texto }}</a>
+
+                     
+                    <span class="switch switch-sm col-lg-2" style="position: absolute;top: 0.2em;right: 1em">
+
+                    <input type="checkbox" class="switch"  id="{{ texto }}">
+                    <label for="{{ texto }}"></label>
+                    </span>
+
+
+                  </li>
+                  {% endfor %}
+                </ul>
+
+
+                 <li data-toggle="collapse" data-target="#service" style="padding-top: 1em;padding-bottom: 1em" class="collapsed">
+                  <a href="#"><i style="margin-right: 10px" class="far fa-file fa-lg"></i> OUTROS <span class="arrow"></span></a>
+                </li>  
+                <ul class="sub-menu collapse" id="outros">
+                  {% for outros in titulooutros %}
+
+                  <li onclick="ligarMV('{{ outros }}');" class="active col-lg-12"><a>{{ outros }}</a>
+
+                     
+                    <span class="switch switch-sm col-lg-2" style="position: absolute;top: 0.2em;right: 1em">
+
+                    <input type="checkbox" class="switch"  id="{{ outros }}">
+                    <label for="{{ texto }}"></label>
+                    </span>
+
+
+                  </li>
+                  {% endfor %}
+                </ul>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+      	<div style="background-color: #020203;height: 22%;margin-top:0px;display: block;text-align: center;width: 14em;position: fixed;bottom: 0px;">
+      			
+
+		<div class="input-group mb-3"  style="margin-left:2px;margin-top: 0px;width: 13.5em">
+    		<div class="input-group-prepend">
+      			<span class="input-group-text"><i class="fa fas fa-search fa-lg"></i></span>
+    		</div>
+    		<input class="form-control" type="text" onkeyup="pesquisarTecnica();"  placeholder="Pesquisar técnica...">
+  		</div>
+
+	      	<button class="btn btn-warning" onclick="desativarAll();" style="color: #000;font-size: 0.9em;background-color: #E5AF59" type="button" >Desativar todas as técnicas
+	        </button>
+        <p style="color:#fff;font-size: 1em;line-height: 4.8;text-align: center;font-family: verdana;letter-spacing: 0px;font-style: italic;" >Created By Erick Leal França</p>
+    	</div>
+      </div>
+
+    </div>
+            
+
+      <div class="col-sm-10"  style="background-color:black;letter-spacing: 1em;height:18em; position:relative">
+              
+        <div class="row">
+         
+          <iframe id = 'tela_tecnica' name = "tela_tecnica" src="" style="width: 100vw;height: 100vh;position: relative;"  frameborder="0" allowfullscreen></iframe>
+
+               
+        </div>
+                
+      </div>
+
+    </div>
+
+  </div>
+    
+</body>

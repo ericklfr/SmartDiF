@@ -1,0 +1,51 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+  <head>
+    <title>SmartDiF</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Analise forense, verificar se imagem é falsa" />
+    <link rel="stylesheet" href="{% static 'bootstrap-4.0.0/dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css' %}">
+     <link rel="stylesheet" href="{% static 'css/component-custom-switch.css' %}">
+    <script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+      <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+      <script src="{% static 'bootstrap-4.0.0/dist/js/bootstrap.min.js' %}"></script>
+    
+
+
+<style type="text/css">
+  html { 
+            background-color: #292929;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            }
+            body { background-color: transparent; } 
+
+</style>
+
+    </head>
+    <body>
+
+
+
+
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div style="color: white" class="col-sm-12">
+
+      <h1 style="text-align: center;font-family: roboto;"> Sobre </h1>
+      <p style="font-family:roboto;font-size:20px;text-align: center" > SmartDiF nasceu a partir de um projeto de Iniciação Cientifca, que visava desenvolver uma ferramenta, para solucionar problemas como a escassez de técnicas de análise forense digital disponíveis para o usuário final, além das dificuldades para se obtê-las e utilizá-las.
+      <h2 style="text-align: center;font-family: roboto;"> Como funciona? </h2>
+      <p style="font-family:roboto;font-size:20px;text-align: center"> Ao selecionar a técnica desejada no menu ao lado esquerdo, uma requisição é enviada para o servidor da ferramenta, algumas verificações serão feitas, se não houve nenhum erro, será criado um ambiente totalmente isolado para o funcionamento da técnica, e por fim, a página será atualiza com a interface da técnica, pronta para ser utilizada.</p>
+    </div>
+
+  </div>
+
+</div>
+    
+</body>
