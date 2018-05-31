@@ -55,7 +55,7 @@ def check(name):
         for line in out:
             parts = line.split()
             if len(parts) >= 1 and j == i:
-                if name in parts:
+                if "smartdifdocker/tecnicas:"+name in parts:
                     # image exist and container too
                     container = 1
                     image = 1
@@ -191,7 +191,7 @@ def dispatcher(request):
                     id = id_generator(10, str(randint(len(image), len(image) * 2)) + image.upper() +
                                       str(randint(len(image) * 2, len(image) * 4)))
                     if virtualization == 'docker':
-                        Popen("docker run --rm --network host -e ID="+id+" -e PORT="+str(port_container)+" --name " + id + " --expose " + str(port_container) + " " + image, shell = True)
+                        Popen("docker run --rm --network host -e ID="+id+" -e PORT="+str(port_container)+" --name " + id + " --expose " + str(port_container) + " smartdifdocker/tecnicas:" + image, shell = True)
 
                     elif virtualization == 'vm':
                         print("Criando VM")
