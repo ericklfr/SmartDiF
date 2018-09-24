@@ -66,7 +66,7 @@ def command_line_parsing():
 
 
 def start(entrypoint, port):
-    activate_this = '../SmartDiF/bin/activate_this.py'
+    activate_this = '../smartdifenv/bin/activate_this.py'
     exec (open(activate_this).read(), dict(__file__=activate_this))
     browser = Th(entrypoint, port)
     browser.start()
