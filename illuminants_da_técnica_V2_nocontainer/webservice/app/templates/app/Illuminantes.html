@@ -1,0 +1,255 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<head>
+	<title>Illuminants</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="SmartDiF - Ferramenta Forense" />
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/illuminants.css' %}">
+	<link rel="stylesheet" href="{% static 'fontawesome-free-5.0.10/web-fonts-with-css/css/fontawesome-all.min.css' %}">
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/bootbox.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.js' %}"></script>
+	<script src="{% static 'js/canvasjs.min.js' %}"></script>
+	<script src="{% static 'js/illuminants.js' %}"></script>
+</head>
+
+<body>
+	<script type='text/javascript'> 
+		getUrlsFromTemplate("{% url 'resultado' %}","{% static 'imagens/drag.png' %}","{% static 'imagens/iic.png' %}","{% static 'imagens/gge.png' %}","{% static 'IIC/' %}","{% static 'GGE/' %}");
+	</script>
+
+
+	<section class="fundo">
+
+
+		<div class="container">
+
+			<div class="row">
+
+				<h1 style="margin-left: 0.5em;font-family: roboto;letter-spacing: 2px;font-size: 40px;color: white">Illuminants</h1>
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-12  col-sm-offset-0 col-md-7 col-md-offset-0  col-lg-6 col-lg-offset-0 col-xl-offset-0 ">
+					<div  id="bordaPrincipal" class="" style="height:37em">
+						<iframe name="pass" style="display:none;"></iframe>
+						<form enctype="multipart/form-data" id="form_img"  onsubmit="return false" method="post" target="pass">
+							{% csrf_token %}
+							<label  for="file">
+								<canvas  class="img-responsive"  style="border:dashed white 2px;border-radius:20px" id="imgp">
+								</canvas>
+								<script type="text/javascript">
+									window.onload = windowOnload();
+									window.onresize = windowOnresize();
+								</script>
+							</label>
+							{{ form.resultado }}
+						</form>
+					</div>
+				</div>
+
+
+				<div class="col-sm-12 col-sm-offset-0 col-md-5 col-md-offset-0 col-lg-6  col-lx-6 col-lx-offset-0" >
+
+					<div class="row">
+
+						<div class="col-sm-6 col-sm-offset-0 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0 col-lx-6 col-lx-offset-0"  style="height:18.5em">
+
+							<div class="row">
+								<div id = 'loading_iic' style="display: none;opacity: 75%;border:solid white 2px;border-radius:15px;min-height:18.5em;max-height:18.5em;width: 100%">
+									<div class="loader" style="text-align: center;align-content: center;margin-left: auto;margin-right: auto;margin-top: 4em;"></div>
+								</div>
+								<img class="img-fluid "  src="{% static 'imagens/iic.png' %}" style="opacity: 75%;border:solid white 2px;border-radius:15px;min-height:18.5em;max-height:18.5em;width: 100%" id="iic"> 
+
+							</div>
+
+						</div>
+
+						<div class="col-sm-6 col-sm-offset-0 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0 col-lx-6 col-lx-offset-0 " style="height:18.5em">
+
+							<div class="row">
+								<div id = 'loading_gge' style="display: none;opacity: 75%;border:solid white 2px;border-radius:15px;min-height:18.5em;max-height:18.5em;width: 100%">
+									<div class="loader" style="text-align: center;align-content: center;margin-left: auto;margin-right: auto;margin-top: 4em;"></div>
+								</div>
+								<img class="img-fluid"   src="{% static 'imagens/gge.png' %}" style="min-height:18.5em;max-height: 18.5em;opacity: 75%;border:solid white 2px;border-radius:15px;width: 100%"   id="gge"> 
+
+							</div>
+
+						</div>
+
+					</div>
+
+
+
+					<div class="row mt-2">
+
+						<div class="col-lg-12">
+
+							<div class="row" style="opacity: 75%;border:solid white 2px;border-radius:15px;overflow-y: auto;">
+
+								<div style="min-height: 9.75em;max-height:9.75em">
+									<div  id="mostrarCanvas" style="margin-top:0.8em"></div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div> 
+
+					<div class="row mt-3" > 
+
+						<div class="col-md-4 col-md-offset-0 col-lg-4" >
+
+							<div class="row">
+
+								<button  type="button" style="background-color: transparent;color: white;opacity: 25%;padding-top:0.125em;padding-bottom:0.125em" class="btn">COR
+								</button>
+
+							</div>
+
+							<div class="row">
+
+								<button  type="button" style="background-color: transparent;color: white;opacity: 25%;padding-top:0.125em;padding-bottom:0.125em" class="btn">BORDA
+								</button>
+
+							</div>
+
+							<div class="row">
+
+								<button  type="button" style="background-color: transparent;color: white;opacity: 25%;padding-top:0.125em;padding-bottom:0.125em" class="btn">TEXTURA
+								</button>
+
+							</div>
+
+							<div class="row">
+
+								<button  type="button" style="background-color: transparent;color: white;opacity: 25%;padding-top:0.125em;padding-bottom:0.125em" class="btn">CLASSIFICADOR
+								</button>
+
+							</div>
+
+
+						</div>
+
+						<div class="col-md-5 col-lg-5">
+
+							<div class="row">
+
+								<div class="btn-group" style="margin: auto;width: 100%" data-toggle="buttons">
+
+									<input type="checkbox" name="descritores" id="acc" value="ACC" >
+									<button  name="cor" onclick="document.getElementById('acc').checked = !document.getElementById('acc').checked;" type="button" style="padding-right: 0.80em;padding-left: 0.80em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark ">ACC
+									</button>
+
+									<input type="checkbox" name="descritores" id="bic" value="BIC" >
+									<button name="cor" onclick="document.getElementById('bic').checked = !document.getElementById('bic').checked;" type="button"  style="padding-right: 0.80em;padding-left: 0.80em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark ">BIC
+									</button>
+
+									<input type="checkbox" name="descritores" id="lch" value="LCH" >
+									<button name="cor" onclick="document.getElementById('lch').checked = !document.getElementById('lch').checked;" style="padding-right: 0.80em;padding-left: 0.80em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark" >
+										LCH
+									</button>
+
+									<input type="checkbox" name="descritores" id="ccv" value="CCV" >
+									<button name="cor" onclick="document.getElementById('ccv').checked = !document.getElementById('ccv').checked;" style="padding-right: 0.80em;padding-left: 0.80em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark ">
+										CCV
+									</button>
+
+								</div>
+
+							</div>
+
+							<div class="row">
+
+								<div class="btn-group btn-block" style="margin: auto;width: 100%" data-toggle="buttons">
+
+									<input type="checkbox" name="descritores" id="eoac" value="EOAC" >
+									<button name = "borda" onclick="document.getElementById('eoac').checked = !document.getElementById('eoac').checked;"  autocomplete="off"   autocomplete="off"  style="padding-left: 2.17em;padding-right: 2.17em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark">
+										EOAC
+									</button>
+
+									<input type="checkbox" name="descritores" id="spytec" value="Spytec" >
+									<button name = "borda" onclick="document.getElementById('spytec').checked = !document.getElementById('spytec').checked;"  autocomplete="off"   autocomplete="off"  style="padding-left: 2.17em;padding-right: 2.17em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark">
+										Spytec
+									</button>
+								</div>
+
+
+							</div>
+
+							<div class="row">
+
+								<div  class="btn-group btn-block" style="margin: auto;width: 100%" data-toggle="buttons">
+
+									<input type="checkbox" name="descritores" id="sasi" value="SASI" >
+									<button name = "terxtura" onclick="document.getElementById('sasi').checked = !document.getElementById('sasi').checked;"  style="padding-right:1.27em;padding-left:1.27em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark">
+										SASI
+									</button>
+
+									<input type="checkbox" name="descritores" id="las" value="LAS" >
+									<button name = "terxtura" onclick="document.getElementById('las').checked = !document.getElementById('las').checked;"  style="padding-right:1.27em;padding-left:1.27em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark">
+										LAS
+									</button>
+
+									<input type="checkbox" name="descritores" id="unser" value="Unser" >
+									<button name = "terxtura" onclick="document.getElementById('unser').checked = !document.getElementById('unser').checked;"  style="padding-right:1.27em;padding-left:1.27em;padding-top:0.125em;padding-bottom:0.125em" class="btn btn-dark">
+										Unser
+									</button>
+								</div>
+
+							</div>
+
+							<div class="row">
+
+								<div  class="btn-group" data-toggle="buttons">
+									<input type="checkbox" name="classificadores" id="svm" value="SVM" >
+									<button name="classificador" disabled onclick="document.getElementById('svm').checked = !document.getElementById('svm').checked;"  style="padding-right:6.3em;padding-left:6.3em;padding-top:0.100em;padding-bottom:0.100em" class="btn btn-dark">SVM
+									</button>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="col-md-3 col-lg-3">
+
+							<div class="row">
+
+								<button id='limpar' style="margin:auto;padding-top:1em;padding-bottom:1em"  class="btn btn-light " onclick="limpar()">
+									<span style="text-align:center;font-size: 11.8px" > LIMPAR DADOS</span>
+								</button>
+
+							</div>
+
+							<div class="row">
+								<button id='submeter' disabled="true" style="margin: auto;padding-top:1em;padding-bottom:1em"  class="btn btn-success" >
+									<script type="text/javascript">
+										$(document).ready(documentReady());
+									</script>
+									<span style="text-align:center;" aria-hidden="true"> SUBMETER</span>
+								</button>
+
+							</div>
+
+						</div>
+
+					</div> 
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+</body>
+</html>

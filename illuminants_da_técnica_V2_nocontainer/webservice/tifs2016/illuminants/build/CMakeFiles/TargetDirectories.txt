@@ -1,0 +1,3 @@
+/home/erick/nome_da_técnica/source-code/illuminants/build/CMakeFiles/edit_cache.dir
+/home/erick/nome_da_técnica/source-code/illuminants/build/CMakeFiles/rebuild_cache.dir
+/home/erick/nome_da_técnica/source-code/illuminants/build/CMakeFiles/vole.dir
