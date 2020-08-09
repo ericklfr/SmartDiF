@@ -1,5 +1,6 @@
 # SmartDiF
-Configurando a ferramenta
+Configurando a ferramenta:
+
 Crie uma pasta para a ferramenta e clone os arquivos do repositório.
 Instale o pip3 e em seguida o virtualenv "pip3 install virtualenv".
 Crie um ambiente virtual "virtualenv -p python3 smartdifenv".
