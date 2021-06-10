@@ -1,7 +1,7 @@
 certifi==2017.7.27.1
 chardet==3.0.4
 cycler==0.10.0
-Django==1.11.4
+Django==2.2.24
 django-middleware-extras==0.1.2
 drf-generators==0.3.0
 gunicorn==19.7.1
