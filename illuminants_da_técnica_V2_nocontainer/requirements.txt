@@ -6,7 +6,7 @@ djangorestframework==3.6.4
 drf-generators==0.3.0
 gunicorn==19.7.1
 idna==2.6
-numpy==1.14.3
+numpy==1.22.0
 olefile==0.45.1
 opencv-python==3.4.0.12
 Pillow==4.2.1
